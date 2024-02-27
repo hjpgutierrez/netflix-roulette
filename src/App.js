@@ -38,8 +38,8 @@ function App() {
       <div className="row top-buffer">
         <GenreSelect
           displayList={displayList}
-          onSelect={(selectedItem) => {
-            console.log(`Genre was added`);
+          onSelect={(selectedList, selectedItem) => {
+            console.log(`${selectedItem.name} was added`);
           }}
           selectedGenre={selectedGenre}
         />

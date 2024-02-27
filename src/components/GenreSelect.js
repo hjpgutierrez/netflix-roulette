@@ -11,7 +11,7 @@ export default class GenreSelect extends React.Component {
       options: props.displayList,
       selectedValue: props.selectedGenre,
     };
-    this.onSelectCallback = props.onSelect;
+    this.onSelectCallback = props.onSelect.bind(props);
   }
 
   render() {
