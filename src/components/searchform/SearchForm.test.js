@@ -1,5 +1,6 @@
 import { render, screen, logRoles } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { act } from "react-dom/test-utils";
 import SearchForm from "./SearchForm";
 
 describe("SearchForm", () => {
@@ -10,22 +11,25 @@ describe("SearchForm", () => {
     expect(displayElement).toHaveValue(initialValue);
   });
 
-  test("after typing to the input and a click event on the Submit button, the onChange prop is called with proper value", async () => {
+  test("after typing to the input and a click event on the Submit button, the onChange prop is called with proper value", () => {
     const searchCriteria = "Henry";
-    const onSearchForm = jest.fn();
+    const onSearchForm = jest.fn((e) => e.preventDefault());
     const onChangeInput = jest.fn();
 
     render(
       <SearchForm onSearch={onSearchForm} onFilterTextChange={onChangeInput} />
     );
 
-    await userEvent.type(screen.getByRole("textbox"), searchCriteria);
-    await userEvent.click(screen.getByRole("button"));
+    act(() => {
+      userEvent.type(screen.getByRole("textbox"), searchCriteria);
+      userEvent.click(screen.getByRole("button"));
+    });
 
     expect(onChangeInput).toHaveBeenCalledTimes(searchCriteria.length);
+    expect(screen.getByRole("textbox")).toHaveValue(searchCriteria);
   });
 
-  test("after typing to the input and pressing Enter key, the onChange prop is called with proper value", async () => {
+  test("after typing to the input and pressing Enter key, the onChange prop is called with proper value", () => {
     const searchCriteria = "Henry{enter}";
     const onSearchForm = jest.fn();
     const onChangeInput = jest.fn();
@@ -34,8 +38,9 @@ describe("SearchForm", () => {
       <SearchForm onSearch={onSearchForm} onFilterTextChange={onChangeInput} />
     );
 
-    await userEvent.type(screen.getByRole("textbox"), searchCriteria);
-
+    act(() => {
+      userEvent.type(screen.getByRole("textbox"), searchCriteria);
+    });
     expect(onSearchForm).toHaveBeenCalledTimes(0);
   });
 });

@@ -21,8 +21,9 @@ describe("Counter", () => {
     act(() => {
       userEvent.click(decrementButton);
     });
+
     const displayElement = screen.getByText(initialValueMinusOne);
-    expect(displayElement).toBeInTheDocument(initialValueMinusOne);
+    expect(displayElement).toBeInTheDocument();
   });
 
   test("click event on increment button increments the displayed value", () => {
@@ -35,7 +36,8 @@ describe("Counter", () => {
     act(() => {
       userEvent.click(incrementButton);
     });
+
     const displayElement = screen.getByText(initialValuePlusOne);
-    expect(displayElement).toBeInTheDocument(initialValuePlusOne);
+    expect(displayElement).toBeInTheDocument();
   });
 });

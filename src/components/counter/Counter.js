@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 
 export default class Counter extends React.Component {
   state = {
@@ -15,7 +15,7 @@ export default class Counter extends React.Component {
   render() {
     const counter = React.createElement(
       "span",
-      { className: "badge bg-secondary", "data-cy": "counter" },
+      { className: "badge bg-secondary", "data-cy": "counter", key: "counter" },
       this.state.count
     );
 
@@ -24,6 +24,7 @@ export default class Counter extends React.Component {
       {
         className: "btn btn-danger",
         "data-cy": "decrement",
+        key: "decrement",
         onClick: () => {
           this.setState({
             count: this.state.count - 1,
@@ -38,6 +39,7 @@ export default class Counter extends React.Component {
       {
         className: "btn btn-success",
         "data-cy": "increment",
+        key: "increment",
         onClick: () => {
           this.setState({
             count: this.state.count + 1,
@@ -48,7 +50,7 @@ export default class Counter extends React.Component {
       "+"
     );
 
-    const Components = [counter, decrementButton, incrementButton ];
-    return <div>{Components}</div>;
+    const Components = [counter, decrementButton, incrementButton];
+    return <Fragment>{Components}</Fragment>;
   }
 }
