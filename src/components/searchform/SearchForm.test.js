@@ -26,12 +26,16 @@ describe("SearchForm", () => {
     });
 
     expect(onChangeInput).toHaveBeenCalledTimes(searchCriteria.length);
+    expect(onChangeInput).toHaveBeenLastCalledWith(searchCriteria);
     expect(screen.getByRole("textbox")).toHaveValue(searchCriteria);
   });
 
   test("after typing to the input and pressing Enter key, the onChange prop is called with proper value", () => {
-    const searchCriteria = "Henry{enter}";
-    const onSearchForm = jest.fn();
+    const searchCriteria = "Henry";
+    const enterKey = "{Enter}";
+    const typeCommand = `${searchCriteria}${enterKey}`;
+
+    const onSearchForm = jest.fn((e) => e.preventDefault());
     const onChangeInput = jest.fn();
 
     const view = render(
@@ -39,8 +43,10 @@ describe("SearchForm", () => {
     );
 
     act(() => {
-      userEvent.type(screen.getByRole("textbox"), searchCriteria);
+      userEvent.type(screen.getByRole("textbox"), typeCommand);
     });
-    expect(onSearchForm).toHaveBeenCalledTimes(0);
+    expect(onChangeInput).toHaveBeenCalledTimes(searchCriteria.length);
+    expect(onChangeInput).toHaveBeenLastCalledWith(searchCriteria);
+    expect(screen.getByRole("textbox")).toHaveValue(searchCriteria);
   });
 });
