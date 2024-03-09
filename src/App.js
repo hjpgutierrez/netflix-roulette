@@ -4,6 +4,9 @@ import "./App.css";
 import Counter from "./components/counter/Counter.js";
 import SearchForm from "./components/searchform/SearchForm.js";
 import GenreSelect from "./components/genreSelect/GenreSelect.js";
+import MovieTile from "./components/movieTile/movieTile.js";
+import MovieDetails from "./components/movieDetails/movieDetails.js";
+import SortControl from "./components/sortControl/sortControl.js";
 
 function App() {
   const [filterText, setFilterText] = useState("");
@@ -24,7 +27,17 @@ function App() {
   };
 
   return (
-    <div className="container">
+    <div className="container montserrat-500">
+      <div className="row top-buffer">
+        <SortControl />
+      </div>
+
+      <MovieDetails />
+
+      <div className="row top-buffer">
+        <MovieTile />
+      </div>
+
       <div className="row top-buffer">
         <Counter initialValue={100} />
       </div>
