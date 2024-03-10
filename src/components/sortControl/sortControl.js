@@ -1,15 +1,25 @@
-export default function SortControl() {
+export default function SortControl({ options, currentOption, onChange }) {
+  const listItems = options.map((item) => (
+    <option value={item} {...(currentOption === item ? "selected" : "")}>
+      {item}
+    </option>
+  ));
+
   return (
     <>
       <div className="col-1">
-        <label for="sortList" className="form-label">
+        <label htmlFor="sortList" className="form-label">
           SORT BY
         </label>
       </div>
       <div className="col-2">
-        <select id="sortList" className="form-select border-0">
-          <option>Release Date</option>
-          <option>Title</option>
+        <select
+          id="sor
+          tList"
+          className="form-select border-0"
+          onChange={onChange}
+        >
+          {listItems}
         </select>
       </div>
     </>

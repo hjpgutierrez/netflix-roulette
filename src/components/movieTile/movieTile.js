@@ -17,20 +17,23 @@ const useStyles = createUseStyles({
   },
 });
 
-export default function MovieTile() {
+export default function MovieTile({ movie, onClick }) {
   const classes = useStyles();
   return (
-    <div className={`${classes.myCard} card border-0`}>
-      <MovieImage />
+    <div
+      className={`${classes.myCard} card border-0`}
+      onClick={(movie) => onClick(movie)}
+    >
+      <MovieImage urlImage={movie.urlImage} />
       <div className="card-body">
         <h5 className={`${classes.myTextColor} card-title`}>
-          Spectral
+          {movie.name}
           <span className={`${classes.yearStyle} card-text float-end`}>
-            2016
+            {movie.releaseYear}
           </span>
         </h5>
         <p className={`${classes.myTextColor} card-text`}>
-          Crime & Documentary
+          {movie.genres.join(", ")}
         </p>
       </div>
     </div>
