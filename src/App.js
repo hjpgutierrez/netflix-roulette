@@ -42,7 +42,7 @@ const exampleMovie = {
 
 function App() {
   const [filterText, setFilterText] = useState("");
-  const [filterBy, setFilterBy] = useState(sortControlOptions[1]);
+  const [orderBy, setOrderBy] = useState(sortControlOptions[1]);
 
   const handleCardClick = (event) => {
     const value = event.target.value;
@@ -56,7 +56,7 @@ function App() {
 
   const onChangeSortBy = (event) => {
     const value = event.target.value;
-    setFilterBy(value);
+    setOrderBy(value);
   };
 
   return (
@@ -64,7 +64,7 @@ function App() {
       <div className="row top-buffer">
         <SortControl
           options={sortControlOptions}
-          currentOption={filterBy}
+          currentOption={orderBy}
           onChange={onChangeSortBy}
         />
       </div>
