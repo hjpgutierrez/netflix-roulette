@@ -1,10 +1,5 @@
 export default function SortControl({ options, currentOption, onChange }) {
-  const listItems = options.map((item) => (
-    <option value={item} {...(currentOption === item ? "selected" : "")}>
-      {item}
-    </option>
-  ));
-
+  const listItems = options.map((item) => <option key={item}>{item}</option>);
   return (
     <>
       <div className="col-1">
@@ -14,8 +9,7 @@ export default function SortControl({ options, currentOption, onChange }) {
       </div>
       <div className="col-2">
         <select
-          id="sor
-          tList"
+          value={currentOption}
           className="form-select border-0"
           onChange={onChange}
         >
