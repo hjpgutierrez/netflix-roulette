@@ -4,9 +4,9 @@ import "./App.css";
 import Counter from "./components/counter/Counter.js";
 import SearchForm from "./components/searchform/SearchForm.js";
 import GenreSelect from "./components/genreSelect/GenreSelect.js";
-import MovieTile from "./components/movieTile/movieTile.js";
-import MovieDetails from "./components/movieDetails/movieDetails.js";
-import SortControl from "./components/sortControl/sortControl.js";
+import MovieTile from "./components/movieTile/MovieTile.js";
+import MovieDetails from "./components/movieDetails/MovieDetails.js";
+import SortControl from "./components/sortControl/SortControl.js";
 
 const displayList = [
   { name: "Crime", id: 1 },

@@ -4,7 +4,6 @@ import SortControl from "./sortControl";
 const sortControlOptions = ["Release", "Title"];
 const onChangeSortBy = (event) => {
   const value = event.target.value;
-  console.log(value);
 };
 
 describe("SortControl", () => {
@@ -22,8 +21,6 @@ describe("SortControl", () => {
   });
 
   test("Simulates selection", () => {
-    const initialValue = "Release";
-
     const { getByTestId, getAllByTestId } = render(
       <SortControl options={sortControlOptions} onChange={onChangeSortBy} />
     );

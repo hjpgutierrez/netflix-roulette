@@ -1,4 +1,4 @@
-import MovieImage from "../movieImage/movieImage.js";
+import MovieImage from "../movieImage/MovieImage.js";
 import { createUseStyles } from "react-jss";
 
 const useStyles = createUseStyles({

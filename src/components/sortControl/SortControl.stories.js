@@ -31,21 +31,21 @@ export const InitialRender = {
 
 export const RenderOptions = {
   args: {
-    options: ["Test 1", "Test 2", "Test 3"],
+    options: ["Release Date", "Title"],
   },
 };
 
 export const RenderSelectedOptions = {
   args: {
-    options: ["Test 1", "Test 2", "Test 3"],
-    currentOption: "Test 2",
+    options: ["Release Date", "Title"],
+    currentOption: "Title",
   },
 };
 
 export const onChangeOptions = {
   args: {
-    options: ["Test 1", "Test 2", "Test 3"],
-    currentOption: "Test 2",
+    options: ["Release Date", "Title"],
+    currentOption: "Title",
     onChange: (e) => alert("Test onChange"),
   },
 };
