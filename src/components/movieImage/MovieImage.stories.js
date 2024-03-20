@@ -1,4 +1,4 @@
-import MovieImage from "./movieImage";
+import MovieImage from "./MovieImage";
 
 export default {
   title: "Components/MovieImage",

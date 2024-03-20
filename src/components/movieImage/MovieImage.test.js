@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import MovieImage from "./movieImage";
+import MovieImage from "./MovieImage";
 
 describe("MovieImage", () => {
   test("renders provided initial value", () => {

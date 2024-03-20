@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from "@testing-library/react";
-import SortControl from "./sortControl";
+import SortControl from "./SortControl";
 
 const sortControlOptions = ["Release", "Title"];
 const onChangeSortBy = (event) => {

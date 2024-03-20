@@ -7,6 +7,7 @@ import GenreSelect from "./components/genreSelect/GenreSelect.js";
 import MovieTile from "./components/movieTile/MovieTile.js";
 import MovieDetails from "./components/movieDetails/MovieDetails.js";
 import SortControl from "./components/sortControl/SortControl.js";
+import Dialog from "./components/dialog/Dialog.js";
 
 const displayList = [
   { name: "Crime", id: 1 },
@@ -43,6 +44,7 @@ const exampleMovie = {
 function App() {
   const [filterText, setFilterText] = useState("");
   const [orderBy, setOrderBy] = useState(sortControlOptions[1]);
+  const [modalOpen, setModalOpen] = useState(false);
 
   const handleCardClick = (event) => {
     const value = event.target.value;
@@ -59,8 +61,24 @@ function App() {
     setOrderBy(value);
   };
 
+  const closePortal = (event) => {
+    setModalOpen(false);
+  };
+
   return (
     <div className="container montserrat-500">
+      <div className="row top-buffer">
+        <input
+          type="button"
+          className="btn btn-primary"
+          value="Launch demo modal"
+          onClick={() => setModalOpen(true)}
+        />
+        <Dialog isOpen={modalOpen} title="Hello!" closePortal={closePortal}>
+          <p>Modal body text goes here.</p>
+        </Dialog>
+      </div>
+
       <div className="row top-buffer">
         <SortControl
           options={sortControlOptions}

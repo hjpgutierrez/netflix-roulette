@@ -1,5 +1,5 @@
 import { fn } from "@storybook/test";
-import SortControl from "./sortControl";
+import SortControl from "./SortControl";
 
 export default {
   title: "Components/SortControl",
