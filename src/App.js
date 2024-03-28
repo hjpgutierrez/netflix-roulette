@@ -3,22 +3,11 @@ import { useState } from "react";
 import "./App.css";
 import Counter from "./components/counter/Counter.js";
 import SearchForm from "./components/searchform/SearchForm.js";
-import GenreSelect from "./components/genreSelect/GenreSelect.js";
 import MovieTile from "./components/movieTile/MovieTile.js";
 import MovieDetails from "./components/movieDetails/MovieDetails.js";
 import SortControl from "./components/sortControl/SortControl.js";
 import Dialog from "./components/dialog/Dialog.js";
-
-const displayList = [
-  { name: "Crime", id: 1 },
-  { name: "Documentary", id: 2 },
-  { name: "Horror", id: 3 },
-  { name: "Comedy", id: 4 },
-];
-const selectedGenre = [
-  { name: "Crime", id: 1 },
-  { name: "Horror", id: 3 },
-];
+import MovieForm from "./components/movieForm/MovieForm.js";
 
 const sortControlOptions = ["Release Date", "Title"];
 const exampleMovie = {
@@ -38,8 +27,15 @@ const exampleMovie = {
   containing Lorem Ipsum passages, and more recently with desktop
   publishing software like Aldus PageMaker including versions of
   Lorem Ipsum.`,
-  genres: ["Fiction", "Drama"],
+  genres: ["Horror", "Comedy"],
 };
+
+const displayList = [
+  { name: "Crime", id: 1 },
+  { name: "Documentary", id: 2 },
+  { name: "Horror", id: 3 },
+  { name: "Comedy", id: 4 },
+];
 
 function App() {
   const [filterText, setFilterText] = useState("");
@@ -65,6 +61,12 @@ function App() {
     setModalOpen(false);
   };
 
+  const handleSubmit = (event) => {
+    const values = Object.fromEntries(new FormData(event.target));
+    console.log(values);
+    event.preventDefault();
+  };
+
   return (
     <div className="container montserrat-500">
       <div className="row top-buffer">
@@ -74,8 +76,8 @@ function App() {
           value="Launch demo modal"
           onClick={() => setModalOpen(true)}
         />
-        <Dialog isOpen={modalOpen} title="Hello!" closePortal={closePortal}>
-          <p>Modal body text goes here.</p>
+        <Dialog isOpen={modalOpen} title="ADD MOVIE" closePortal={closePortal}>
+          <MovieForm movieEdit={exampleMovie} handleSubmit={handleSubmit} />
         </Dialog>
       </div>
 
@@ -102,16 +104,6 @@ function App() {
         onSearch={onSearchForm}
         onFilterTextChange={setFilterText}
       />
-
-      <div className="row top-buffer">
-        <GenreSelect
-          displayList={displayList}
-          onSelect={(selectedList, selectedItem) => {
-            console.log(`${selectedItem.name} was added`);
-          }}
-          selectedGenre={selectedGenre}
-        />
-      </div>
     </div>
   );
 }
