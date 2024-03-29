@@ -58,7 +58,7 @@ function MovieForm({ movie, handleSubmit }) {
           />
         </div>
         <div className="col-4">
-          <label htmlFor="releaseDate" className="form-label">
+          <label htmlFor="rating" className="form-label">
             RATING
           </label>
           <input
@@ -117,7 +117,12 @@ function MovieForm({ movie, handleSubmit }) {
         <button type="button" className="btn btn-secondary">
           RESET
         </button>
-        <input type="submit" value="SUBMIT" className="btn btn-danger"></input>
+        <input
+          type="submit"
+          name="submit"
+          value="SUBMIT"
+          className="btn btn-danger"
+        ></input>
       </div>
     </form>
   );
