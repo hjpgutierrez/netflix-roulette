@@ -7,7 +7,12 @@ const displayList = [
   { name: "Comedy", id: 4 },
 ];
 
-export default function MovieForm({ movieEdit, handleSubmit }) {
+function MovieForm({ movie, handleSubmit }) {
+  let movieEdit = {};
+  if (movie) {
+    movieEdit = movie;
+  }
+
   return (
     <form onSubmit={handleSubmit}>
       <div className="row">
@@ -74,8 +79,9 @@ export default function MovieForm({ movieEdit, handleSubmit }) {
           <GenreSelect
             displayList={displayList}
             onSelect={(selectedList, selectedItem) => {
-              console.log(`${selectedItem.name} was added`);
+              console.log(selectedList);
             }}
+            selectedGenre={movieEdit.genres}
           />
         </div>
         <div className="col-4">
@@ -100,6 +106,7 @@ export default function MovieForm({ movieEdit, handleSubmit }) {
           <textarea
             className="form-control"
             id="description"
+            name="description"
             rows="3"
             placeholder="Movie description"
             defaultValue={movieEdit.description}
@@ -115,3 +122,5 @@ export default function MovieForm({ movieEdit, handleSubmit }) {
     </form>
   );
 }
+
+export default MovieForm;
