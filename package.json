@@ -29,7 +29,8 @@
     "extends": [
       "react-app",
       "react-app/jest",
-      "plugin:storybook/recommended"
+      "plugin:storybook/recommended",
+      "plugin:react-hooks/recommended"
     ]
   },
   "browserslist": {
@@ -56,6 +57,7 @@
     "@storybook/react-webpack5": "^8.0.0",
     "@storybook/test": "^8.0.0",
     "cypress": "^13.6.6",
+    "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-storybook": "^0.8.0",
     "prop-types": "^15.8.1",
     "storybook": "^8.0.0",

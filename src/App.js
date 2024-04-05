@@ -8,6 +8,7 @@ import MovieDetails from "./components/movieDetails/MovieDetails.js";
 import SortControl from "./components/sortControl/SortControl.js";
 import Dialog from "./components/dialog/Dialog.js";
 import MovieForm from "./components/movieForm/MovieForm.js";
+import MovieListPage from "./components/movieListPage/MovieListPage.js";
 
 const sortControlOptions = ["Release Date", "Title"];
 const exampleMovie = {
@@ -62,7 +63,8 @@ function App() {
   };
 
   return (
-    <div className="container montserrat-500">
+    <MovieListPage />
+    /*  <div className="container montserrat-500">
       <div className="row top-buffer">
         <input
           type="button"
@@ -98,7 +100,7 @@ function App() {
         onSearch={onSearchForm}
         onFilterTextChange={setFilterText}
       />
-    </div>
+    </div> */
   );
 }
 
