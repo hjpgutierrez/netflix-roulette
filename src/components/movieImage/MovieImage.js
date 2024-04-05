@@ -2,7 +2,7 @@ import { createUseStyles } from "react-jss";
 
 const useStyles = createUseStyles({
   myImage: {
-    height: 300,
+    height: 400,
     width: "100%",
   },
 });

@@ -5,8 +5,8 @@ export default function SearchForm({
 }) {
   return (
     <form>
-      <div className="row top-buffer">
-        <div className="col-9">
+      <div className="row">
+        <div className="col-md-8 offset-md-1">
           <div className="form-group">
             <input
               className="form-control"
