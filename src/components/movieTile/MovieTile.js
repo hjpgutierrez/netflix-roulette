@@ -1,5 +1,6 @@
 import MovieImage from "../movieImage/MovieImage.js";
 import { createUseStyles } from "react-jss";
+import { joinGenres } from "../../utilities/Utility.js";
 
 const useStyles = createUseStyles({
   yearStyle: {
@@ -19,6 +20,7 @@ const useStyles = createUseStyles({
 
 export default function MovieTile({ movie, onClick }) {
   const classes = useStyles();
+
   return (
     <div
       className={`${classes.myCard} card border-0`}
@@ -33,7 +35,7 @@ export default function MovieTile({ movie, onClick }) {
           </span>
         </h5>
         <p className={`${classes.myTextColor} card-text`}>
-          {movie.genres.join(", ")}
+          {joinGenres(movie.genres)}
         </p>
       </div>
     </div>

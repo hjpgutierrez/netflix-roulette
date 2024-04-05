@@ -1,5 +1,6 @@
 import MovieImage from "../movieImage/MovieImage.js";
 import { createUseStyles } from "react-jss";
+import { joinGenres } from "../../utilities/Utility.js";
 
 const useStyles = createUseStyles({
   ratingStyle: {
@@ -43,7 +44,7 @@ export default function MovieDetails({ movie }) {
         <div className="row">
           <div className="col-12 float-start">
             <p className={`${classes.greyText} card-text`}>
-              {movie.genres.join(", ")}
+              {joinGenres(movie.genres)}
             </p>
           </div>
         </div>

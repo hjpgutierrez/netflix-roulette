@@ -1,5 +1,5 @@
 import { fn } from "@storybook/test";
-import MovieTile from "./movieTile";
+import MovieTile from "./MovieTile";
 
 const exampleMovie = {
   urlImage:

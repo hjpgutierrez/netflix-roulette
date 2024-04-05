@@ -3,21 +3,11 @@ import { useState } from "react";
 import "./App.css";
 import Counter from "./components/counter/Counter.js";
 import SearchForm from "./components/searchform/SearchForm.js";
-import GenreSelect from "./components/genreSelect/GenreSelect.js";
 import MovieTile from "./components/movieTile/MovieTile.js";
 import MovieDetails from "./components/movieDetails/MovieDetails.js";
 import SortControl from "./components/sortControl/SortControl.js";
-
-const displayList = [
-  { name: "Crime", id: 1 },
-  { name: "Documentary", id: 2 },
-  { name: "Horror", id: 3 },
-  { name: "Comedy", id: 4 },
-];
-const selectedGenre = [
-  { name: "Crime", id: 1 },
-  { name: "Horror", id: 3 },
-];
+import Dialog from "./components/dialog/Dialog.js";
+import MovieForm from "./components/movieForm/MovieForm.js";
 
 const sortControlOptions = ["Release Date", "Title"];
 const exampleMovie = {
@@ -27,22 +17,24 @@ const exampleMovie = {
   releaseYear: 2016,
   rating: 8.9,
   durationResume: "2H 35M",
-  description: `Lorem Ipsum is simply dummy text of the printing and typesetting
-  industry. Lorem Ipsum has been the industry's standard dummy text
-  ever since the 1500s, when an unknown printer took a galley of
-  type and scrambled it to make a type specimen book. It has
-  survived not only five centuries, but also the leap into
-  electronic typesetting, remaining essentially unchanged. It was
-  popularised in the 1960s with the release of Letraset sheets
-  containing Lorem Ipsum passages, and more recently with desktop
-  publishing software like Aldus PageMaker including versions of
-  Lorem Ipsum.`,
-  genres: ["Fiction", "Drama"],
+  description: `Lorem Ipsum is simply dummy text of the printing and typesetting`,
+  genres: [
+    { name: "Documentary", id: 2 },
+    { name: "Comedy", id: 4 },
+  ],
 };
+
+const displayList = [
+  { name: "Crime", id: 1 },
+  { name: "Documentary", id: 2 },
+  { name: "Horror", id: 3 },
+  { name: "Comedy", id: 4 },
+];
 
 function App() {
   const [filterText, setFilterText] = useState("");
   const [orderBy, setOrderBy] = useState(sortControlOptions[1]);
+  const [modalOpen, setModalOpen] = useState(false);
 
   const handleCardClick = (event) => {
     const value = event.target.value;
@@ -59,8 +51,30 @@ function App() {
     setOrderBy(value);
   };
 
+  const closePortal = (event) => {
+    setModalOpen(false);
+  };
+
+  const handleSubmit = (event) => {
+    const formValues = Object.fromEntries(new FormData(event.target));
+    console.log(formValues);
+    event.preventDefault();
+  };
+
   return (
     <div className="container montserrat-500">
+      <div className="row top-buffer">
+        <input
+          type="button"
+          className="btn btn-primary"
+          value="Launch demo modal"
+          onClick={() => setModalOpen(true)}
+        />
+        <Dialog isOpen={modalOpen} title="ADD MOVIE" closePortal={closePortal}>
+          <MovieForm movie={exampleMovie} handleSubmit={handleSubmit} />
+        </Dialog>
+      </div>
+
       <div className="row top-buffer">
         <SortControl
           options={sortControlOptions}
@@ -84,16 +98,6 @@ function App() {
         onSearch={onSearchForm}
         onFilterTextChange={setFilterText}
       />
-
-      <div className="row top-buffer">
-        <GenreSelect
-          displayList={displayList}
-          onSelect={(selectedList, selectedItem) => {
-            console.log(`${selectedItem.name} was added`);
-          }}
-          selectedGenre={selectedGenre}
-        />
-      </div>
     </div>
   );
 }

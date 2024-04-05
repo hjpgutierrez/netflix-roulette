@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import MovieDetails from "./movieDetails";
+import MovieDetails from "./MovieDetails";
 
 const exampleMovie = {
   urlImage:

@@ -1,7 +1,7 @@
 import { render, screen, logRoles } from "@testing-library/react";
 import { act } from "react-dom/test-utils";
 import userEvent from "@testing-library/user-event";
-import MovieTile from "./movieTile";
+import MovieTile from "./MovieTile";
 
 const exampleMovie = {
   urlImage:

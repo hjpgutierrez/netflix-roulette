@@ -1,4 +1,4 @@
-import MovieDetails from "./movieDetails";
+import MovieDetails from "./MovieDetails.js";
 
 const exampleMovie = {
   urlImage:
