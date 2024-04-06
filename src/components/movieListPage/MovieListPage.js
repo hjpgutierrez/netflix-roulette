@@ -1,28 +1,31 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import { movieMapper } from "../../utilities/Utility.js";
 import SearchForm from "../searchform/SearchForm";
 import SortControl from "../sortControl/SortControl.js";
 import MovieTile from "../movieTile/MovieTile.js";
+import MovieDetails from "../movieDetails/MovieDetails.js";
 
 // Static values
 const sortControlOptions = ["Release Date", "Title"];
-const exampleMovie = {
-  urlImage:
-    "https://m.media-amazon.com/images/M/MV5BYWQxN2I1NjItMDVjMS00ZmJjLWIyYjItOWI2OGY5NTU1ZjI2L2ltYWdlL2ltYWdlXkEyXkFqcGdeQXVyNTc3MjM3OTA@._V1_UY1200_CR86,0,630,1200_AL_.jpg",
-  name: "Spectral",
-  releaseYear: 2016,
-  rating: 8.9,
-  durationResume: "2H 35M",
-  description: `Lorem Ipsum is simply dummy text of the printing and typesetting`,
-  genres: [
-    { name: "Documentary", id: 2 },
-    { name: "Comedy", id: 4 },
-  ],
-};
+const baseURL = "http://localhost:4000/movies";
 
 const MovieListPage = () => {
   // States
   const [filterText, setFilterText] = useState();
   const [orderBy, setOrderBy] = useState(sortControlOptions[0]);
+  const [activeGenre, setActiveGenre] = useState();
+  const [movieList, setMovieList] = useState([]);
+  const [selectedMovie, setSelectedMovie] = useState();
+
+  useEffect(() => {
+    axios.get(baseURL).then((response) => {
+      console.log(response);
+      setMovieList(movieMapper(response.data.data));
+    });
+  }, []);
+
+  if (!movieList || movieList.length <= 0) return null;
 
   // Event Handlers
   const onSearchForm = (event) => {
@@ -35,13 +38,17 @@ const MovieListPage = () => {
     setOrderBy(value);
   };
 
-  const handleCardClick = (event) => {
-    const value = event.target.value;
-    alert(`Playing ${value}`);
+  const onCloseMovieDetails = () => {
+    setSelectedMovie(undefined);
   };
 
-  const content = (
-    <div className="container">
+  let jumboTron;
+  if (selectedMovie) {
+    jumboTron = (
+      <MovieDetails movie={selectedMovie} onClose={onCloseMovieDetails} />
+    );
+  } else {
+    jumboTron = (
       <div className="bg-opacity mt-4 p-5 text-white">
         <div className="content text-white">
           <div className="row mb-5">
@@ -65,6 +72,24 @@ const MovieListPage = () => {
           />
         </div>
       </div>
+    );
+  }
+
+  const listItems = movieList.map((movieItem) => (
+    <div className="col-4" key={movieItem.name}>
+      <MovieTile
+        movie={movieItem}
+        onClick={() => {
+          setSelectedMovie(movieItem);
+        }}
+      />
+    </div>
+  ));
+
+  const content = (
+    <div className="container">
+      {jumboTron}
+
       <div className="mt-4 p-5 movieListContainer text-white">
         <div className="row">
           <div className="col-8">
@@ -102,25 +127,7 @@ const MovieListPage = () => {
             <b>39</b> movies found
           </div>
         </div>
-        <div className="row mb-5">
-          <div className="col-4">
-            <MovieTile movie={exampleMovie} onClick={handleCardClick} />
-          </div>
-          <div className="col-4">
-            <MovieTile movie={exampleMovie} onClick={handleCardClick} />
-          </div>
-          <div className="col-4">
-            <MovieTile movie={exampleMovie} onClick={handleCardClick} />
-          </div>
-        </div>
-        <div className="row mb-5">
-          <div className="col-4">
-            <MovieTile movie={exampleMovie} onClick={handleCardClick} />
-          </div>
-          <div className="col-4">
-            <MovieTile movie={exampleMovie} onClick={handleCardClick} />
-          </div>
-        </div>
+        <div className="row mb-5">{listItems}</div>
       </div>
 
       <div className="row justify-content-md-center p-3 footer">
