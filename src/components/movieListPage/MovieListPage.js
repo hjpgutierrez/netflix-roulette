@@ -5,25 +5,38 @@ import SearchForm from "../searchform/SearchForm";
 import SortControl from "../sortControl/SortControl.js";
 import MovieTile from "../movieTile/MovieTile.js";
 import MovieDetails from "../movieDetails/MovieDetails.js";
+import GenreFilter from "../genreFilter/GenreFilter.js";
 
 // Static values
 const sortControlOptions = ["Release Date", "Title"];
+const fixedGenres = [
+  "Action",
+  "Adventure",
+  "Drama",
+  "Animation",
+  "Family",
+  "Crime",
+];
 const baseURL = "http://localhost:4000/movies";
 
 const MovieListPage = () => {
   // States
-  const [filterText, setFilterText] = useState();
+  const [filterText, setFilterText] = useState("");
   const [orderBy, setOrderBy] = useState(sortControlOptions[0]);
-  const [activeGenre, setActiveGenre] = useState();
+  const [activeGenre, setActiveGenre] = useState("");
   const [movieList, setMovieList] = useState([]);
   const [selectedMovie, setSelectedMovie] = useState();
+  const [urlRequest, setUrlRequest] = useState(baseURL);
+  const [totalAmount, setTotalAmount] = useState(0);
 
   useEffect(() => {
-    axios.get(baseURL).then((response) => {
+    console.log(urlRequest);
+    axios.get(urlRequest).then((response) => {
       console.log(response);
       setMovieList(movieMapper(response.data.data));
+      setTotalAmount(response.data.totalAmount);
     });
-  }, []);
+  }, [urlRequest]);
 
   if (!movieList || movieList.length <= 0) return null;
 
@@ -31,11 +44,17 @@ const MovieListPage = () => {
   const onSearchForm = (event) => {
     event.preventDefault();
     console.log(filterText);
+    setUrlRequest(`${baseURL}?search=${filterText}&searchBy=title`);
   };
 
   const onChangeSortBy = (event) => {
     const value = event.target.value;
     setOrderBy(value);
+    if (value === "Title") {
+      setUrlRequest(`${baseURL}?sortBy=title&sortOrder=asc`);
+    } else {
+      setUrlRequest(`${baseURL}?sortBy=release_date&sortOrder=asc`);
+    }
   };
 
   const onCloseMovieDetails = () => {
@@ -93,25 +112,20 @@ const MovieListPage = () => {
       <div className="mt-4 p-5 movieListContainer text-white">
         <div className="row">
           <div className="col-8">
-            <ul className="nav">
-              <li className="nav-item">
-                <a className="nav-link active" href="#">
-                  ALL
-                </a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link">HORROR</a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link">CRIME</a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link">DOCUMENTARY</a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link">SCI-FY</a>
-              </li>
-            </ul>
+            <GenreFilter
+              genresToDisplay={fixedGenres}
+              activeGenre={activeGenre}
+              onClick={(genre) => {
+                console.log(genre);
+                setActiveGenre(genre);
+
+                setUrlRequest(
+                  genre === ""
+                    ? baseURL
+                    : `${baseURL}?search=${genre}&searchBy=genres`
+                );
+              }}
+            />
           </div>
           <div className="col-4 sortBy">
             <SortControl
@@ -124,7 +138,7 @@ const MovieListPage = () => {
         </div>
         <div className="row p-3">
           <div className="col lead">
-            <b>39</b> movies found
+            <b>{totalAmount}</b> movies found
           </div>
         </div>
         <div className="row mb-5">{listItems}</div>
