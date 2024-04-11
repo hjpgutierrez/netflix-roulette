@@ -82,20 +82,29 @@ const MovieListPage = () => {
       setMovieList(movieMapper(response.data.data));
       setTotalAmount(response.data.totalAmount);
     });
-  }, [urlRequest, activeGenre, orderBy, filterText]);
+  }, [urlRequest, activeGenre, orderBy]);
 
   if (!movieList || movieList.length <= 0) return null;
 
   // Event Handlers
   const onSearchForm = (event) => {
     event.preventDefault();
-    setSearchParams({ query: filterText });
+    setSearchParams({
+      query: filterText,
+      genre: activeGenre,
+      orderby: orderBy,
+    });
     setUrlRequest(getUrlRequest());
   };
 
   const onChangeSortBy = (event) => {
     const value = event.target.value;
     setOrderBy(value);
+    setSearchParams({
+      query: filterText,
+      genre: activeGenre,
+      orderby: value,
+    });
     setUrlRequest(getUrlRequest());
   };
 
@@ -160,7 +169,11 @@ const MovieListPage = () => {
               onClick={(genre) => {
                 console.log(genre);
                 setActiveGenre(genre);
-                setSearchParams({ genre: genre });
+                setSearchParams({
+                  query: filterText,
+                  genre: genre,
+                  orderby: orderBy,
+                });
                 setUrlRequest(getUrlRequest());
               }}
             />
