@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import axios from "axios";
 import { movieMapper } from "../../utilities/Utility.js";
 import SearchForm from "../searchform/SearchForm";
@@ -21,13 +22,15 @@ const baseURL = "http://localhost:4000/movies";
 
 const MovieListPage = () => {
   // States
-  const [filterText, setFilterText] = useState("");
-  const [orderBy, setOrderBy] = useState(sortControlOptions[0]);
-  const [activeGenre, setActiveGenre] = useState("");
+  let [searchParams, setSearchParams] = useSearchParams();
+  const [filterText, setFilterText] = useState(searchParams.get("query"));
+  const [orderBy, setOrderBy] = useState(searchParams.get("orderby"));
+  const [activeGenre, setActiveGenre] = useState(searchParams.get("genre"));
   const [movieList, setMovieList] = useState([]);
   const [selectedMovie, setSelectedMovie] = useState();
   const [urlRequest, setUrlRequest] = useState(baseURL);
   const [totalAmount, setTotalAmount] = useState(0);
+  console.log();
 
   useEffect(() => {
     console.log(urlRequest);
@@ -120,9 +123,7 @@ const MovieListPage = () => {
                 setActiveGenre(genre);
 
                 setUrlRequest(
-                  genre === ""
-                    ? baseURL
-                    : `${baseURL}?search=${genre}&searchBy=genres`
+                  genre === "" ? baseURL : `${baseURL}?filter=${genre}`
                 );
               }}
             />

@@ -1,8 +1,5 @@
 import "./App.css";
-import MovieListPage from "./components/movieListPage/MovieListPage.js";
 
-function App() {
-  return <MovieListPage />;
-}
+function App() {}
 
 export default App;
