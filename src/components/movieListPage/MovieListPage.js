@@ -23,41 +23,80 @@ const baseURL = "http://localhost:4000/movies";
 const MovieListPage = () => {
   // States
   let [searchParams, setSearchParams] = useSearchParams();
-  const [filterText, setFilterText] = useState(searchParams.get("query"));
-  const [orderBy, setOrderBy] = useState(searchParams.get("orderby"));
-  const [activeGenre, setActiveGenre] = useState(searchParams.get("genre"));
+  const [filterText, setFilterText] = useState(
+    searchParams.get("query") != null ? searchParams.get("query") : ""
+  );
+  const [orderBy, setOrderBy] = useState(
+    searchParams.get("orderby") != null
+      ? searchParams.get("orderby")
+      : sortControlOptions[0]
+  );
+  const [activeGenre, setActiveGenre] = useState(
+    searchParams.get("genre") != null ? searchParams.get("genre") : ""
+  );
+
+  const getSortByValue = (value) =>
+    value === "Title" ? "title" : "release_date";
+
+  const getUrlRequest = () => {
+    let dict = {
+      search: "",
+      searchBy: "",
+      filter: "",
+      sortBy: getSortByValue(orderBy),
+      sortOrder: "desc",
+    };
+
+    let tempUrl = `${baseURL}?`;
+
+    if (filterText !== null && filterText !== "" && filterText !== undefined) {
+      dict.search = filterText;
+      dict.searchBy = "title";
+    }
+
+    if (
+      activeGenre !== null &&
+      activeGenre !== "" &&
+      activeGenre !== undefined
+    ) {
+      dict.filter = activeGenre;
+    }
+
+    for (var key in dict) {
+      tempUrl += `${key}=${dict[key]}&`;
+    }
+
+    tempUrl += `limit=30`;
+
+    return tempUrl;
+  };
+
   const [movieList, setMovieList] = useState([]);
   const [selectedMovie, setSelectedMovie] = useState();
-  const [urlRequest, setUrlRequest] = useState(baseURL);
+  const [urlRequest, setUrlRequest] = useState(getUrlRequest());
   const [totalAmount, setTotalAmount] = useState(0);
-  console.log();
 
   useEffect(() => {
-    console.log(urlRequest);
-    axios.get(urlRequest).then((response) => {
-      console.log(response);
+    console.log(getUrlRequest());
+    axios.get(getUrlRequest()).then((response) => {
       setMovieList(movieMapper(response.data.data));
       setTotalAmount(response.data.totalAmount);
     });
-  }, [urlRequest]);
+  }, [urlRequest, activeGenre, orderBy, filterText]);
 
   if (!movieList || movieList.length <= 0) return null;
 
   // Event Handlers
   const onSearchForm = (event) => {
     event.preventDefault();
-    console.log(filterText);
-    setUrlRequest(`${baseURL}?search=${filterText}&searchBy=title`);
+    setSearchParams({ query: filterText });
+    setUrlRequest(getUrlRequest());
   };
 
   const onChangeSortBy = (event) => {
     const value = event.target.value;
     setOrderBy(value);
-    if (value === "Title") {
-      setUrlRequest(`${baseURL}?sortBy=title&sortOrder=asc`);
-    } else {
-      setUrlRequest(`${baseURL}?sortBy=release_date&sortOrder=asc`);
-    }
+    setUrlRequest(getUrlRequest());
   };
 
   const onCloseMovieDetails = () => {
@@ -121,10 +160,8 @@ const MovieListPage = () => {
               onClick={(genre) => {
                 console.log(genre);
                 setActiveGenre(genre);
-
-                setUrlRequest(
-                  genre === "" ? baseURL : `${baseURL}?filter=${genre}`
-                );
+                setSearchParams({ genre: genre });
+                setUrlRequest(getUrlRequest());
               }}
             />
           </div>
