@@ -1,13 +1,110 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #555555;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+
+.bg-opacity {
+  position: relative;
+  background-color: #000;
+}
+
+.bg-opacity::before {
+  content: " ";
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  opacity: 0.3;
+  background-image: url(./netflix-roulette-bg.png);
+  background-repeat: space;
+  background-size: cover;
+  background-position: bottom;
+}
+
+.content {
+  position: relative;
+  width: 100%;
+  height: 300px;
+}
+
+.addmoviebuttoncolumn {
+  text-align: -webkit-right;
+}
+
+.addmoviebutton {
+  background-color: #555555;
+  color: #f65261;
+  text-align: center;
+  width: 150px;
+  height: 33px;
+  opacity: 0.8;
+  border-radius: 5px;
+  padding: 5px;
+  font-weight: bold;
+}
+
+.textlogo {
+  font-size: 25px;
+  font-weight: bold;
+  color: #f65261;
+}
+
+.textlogo2 {
+  font-size: 22px;
+  font-weight: 300;
+  letter-spacing: 1.5px;
+  color: #f65261;
+}
+
+.footer {
+  background-color: #424242;
+}
+
+.movieListContainer {
+  background-color: #232323;
+}
+
+.select {
+  margin-bottom: 1em;
+  padding: 0.25em;
+  border: 0;
+  border-bottom: 2px solid currentcolor;
+  font-weight: bold;
+  font-size: large;
+  letter-spacing: 2px;
+  border-radius: 0;
+  outline: 0;
+  background-color: #232323;
+  color: #ecebeb;
+  border-bottom-color: #232323;
+}
+
+.nav-link {
+  color: white;
+}
+
+.nav-item .active {
+  border-bottom: 2px solid currentcolor;
+  border-bottom-color: #f65261;
+}
+
+.sortBy {
+  text-align: center;
+}
+
+.card-body {
+  background-color: #232323;
 }

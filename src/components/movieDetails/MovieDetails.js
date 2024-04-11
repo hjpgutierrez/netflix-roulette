@@ -1,6 +1,7 @@
 import MovieImage from "../movieImage/MovieImage.js";
 import { createUseStyles } from "react-jss";
 import { joinGenres } from "../../utilities/Utility.js";
+import SearchIcon from "../../searchIcon.png";
 
 const useStyles = createUseStyles({
   ratingStyle: {
@@ -21,10 +22,10 @@ const useStyles = createUseStyles({
     color: "#939393",
     textAlign: "Justify",
   },
-  myTile: { backgroundColor: "#424242", padding: "5px" },
+  myTile: { backgroundColor: "#424242", padding: "5px", marginTop: "20px" },
 });
 
-export default function MovieDetails({ movie }) {
+export default function MovieDetails({ movie, onClose }) {
   const classes = useStyles();
 
   return (
@@ -37,8 +38,11 @@ export default function MovieDetails({ movie }) {
           <div className="col-6">
             <h1 className={classes.whiteText}>{movie.name}</h1>
           </div>
-          <div className="col-6 float-start">
+          <div className="col-4 float-start">
             <p className={classes.ratingStyle}>{movie.rating}</p>
+          </div>
+          <div className="col-2 float-end">
+            <img src={SearchIcon} alt="SearchIcon" onClick={onClose} />
           </div>
         </div>
         <div className="row">

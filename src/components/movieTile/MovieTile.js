@@ -4,9 +4,9 @@ import { joinGenres } from "../../utilities/Utility.js";
 
 const useStyles = createUseStyles({
   yearStyle: {
-    border: "1px #b2b2b2 solid",
+    border: "1px #353535 solid",
     borderRadius: "4px",
-    padding: "4px",
+    padding: "4px 10px 4px 10px ",
     fontSize: "medium",
   },
   myCard: {
@@ -30,13 +30,13 @@ export default function MovieTile({ movie, onClick }) {
       <div className="card-body">
         <h5 className={`${classes.myTextColor} card-title`}>
           {movie.name}
-          <span className={`${classes.yearStyle} card-text float-end`}>
+          <small className={`${classes.yearStyle} card-text float-end`}>
             {movie.releaseYear}
-          </span>
+          </small>
         </h5>
-        <p className={`${classes.myTextColor} card-text`}>
+        <small className={`${classes.myTextColor} card-text`}>
           {joinGenres(movie.genres)}
-        </p>
+        </small>
       </div>
     </div>
   );
