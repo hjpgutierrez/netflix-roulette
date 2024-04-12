@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 import axios from "axios";
-import { movieMapper } from "../../utilities/Utility.js";
+import { movieMapperArray } from "../../utilities/Utility.js";
 import SearchForm from "../searchform/SearchForm";
 import SortControl from "../sortControl/SortControl.js";
 import MovieTile from "../movieTile/MovieTile.js";
-import MovieDetails from "../movieDetails/MovieDetails.js";
+
 import GenreFilter from "../genreFilter/GenreFilter.js";
+import MovieShellDetails from "../movieShellDetails/movieShellDetails.js";
 
 // Static values
 const sortControlOptions = ["Release Date", "Title"];
@@ -75,11 +76,12 @@ const MovieListPage = () => {
   const [selectedMovie, setSelectedMovie] = useState();
   const [urlRequest, setUrlRequest] = useState(getUrlRequest());
   const [totalAmount, setTotalAmount] = useState(0);
+  let { movieId } = useParams();
 
   useEffect(() => {
     console.log(getUrlRequest());
     axios.get(getUrlRequest()).then((response) => {
-      setMovieList(movieMapper(response.data.data));
+      setMovieList(movieMapperArray(response.data.data));
       setTotalAmount(response.data.totalAmount);
     });
   }, [urlRequest, activeGenre, orderBy]);
@@ -108,15 +110,9 @@ const MovieListPage = () => {
     setUrlRequest(getUrlRequest());
   };
 
-  const onCloseMovieDetails = () => {
-    setSelectedMovie(undefined);
-  };
-
   let jumboTron;
-  if (selectedMovie) {
-    jumboTron = (
-      <MovieDetails movie={selectedMovie} onClose={onCloseMovieDetails} />
-    );
+  if (movieId) {
+    jumboTron = <MovieShellDetails movieId={movieId} />;
   } else {
     jumboTron = (
       <div className="bg-opacity mt-4 p-5 text-white">

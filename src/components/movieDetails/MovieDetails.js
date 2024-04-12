@@ -27,6 +27,7 @@ const useStyles = createUseStyles({
 
 export default function MovieDetails({ movie, onClose }) {
   const classes = useStyles();
+  if (!movie) return null;
 
   return (
     <div className={`${classes.myTile} row`}>
