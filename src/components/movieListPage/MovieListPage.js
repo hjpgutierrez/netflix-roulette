@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useParams, useSearchParams } from "react-router-dom";
+import { useParams, useSearchParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { movieMapperArray } from "../../utilities/Utility.js";
 import SearchForm from "../searchform/SearchForm";
@@ -35,6 +35,16 @@ const MovieListPage = () => {
   const [activeGenre, setActiveGenre] = useState(
     searchParams.get("genre") != null ? searchParams.get("genre") : ""
   );
+
+  const getCurrentQueryParams = () => {
+    let currentQueryParams = `?`;
+    for (const entry of searchParams.entries()) {
+      const [param, value] = entry;
+      currentQueryParams += `${param}=${value}&`;
+    }
+
+    return currentQueryParams;
+  };
 
   const getSortByValue = (value) =>
     value === "Title" ? "title" : "release_date";
@@ -73,13 +83,12 @@ const MovieListPage = () => {
   };
 
   const [movieList, setMovieList] = useState([]);
-  const [selectedMovie, setSelectedMovie] = useState();
   const [urlRequest, setUrlRequest] = useState(getUrlRequest());
   const [totalAmount, setTotalAmount] = useState(0);
+  const navigate = useNavigate();
   let { movieId } = useParams();
 
   useEffect(() => {
-    console.log(getUrlRequest());
     axios.get(getUrlRequest()).then((response) => {
       setMovieList(movieMapperArray(response.data.data));
       setTotalAmount(response.data.totalAmount);
@@ -146,7 +155,7 @@ const MovieListPage = () => {
       <MovieTile
         movie={movieItem}
         onClick={() => {
-          setSelectedMovie(movieItem);
+          navigate("/" + movieItem.id + getCurrentQueryParams());
         }}
       />
     </div>
