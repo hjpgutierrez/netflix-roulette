@@ -1,4 +1,5 @@
 import GenreSelect from "../genreSelect/GenreSelect";
+import { useForm } from "react-hook-form";
 
 const displayList = [
   { name: "Crime", id: 1 },
@@ -7,27 +8,35 @@ const displayList = [
   { name: "Comedy", id: 4 },
 ];
 
-function MovieForm({ movie, handleSubmit }) {
+function MovieForm({ movie, onSubmit }) {
   let movieEdit = {};
   if (movie) {
     movieEdit = movie;
   }
 
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
+
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <div className="row">
         <div className="col-8">
-          <label htmlFor="title" className="form-label">
+          <label htmlFor="name" className="form-label">
             TITLE
           </label>
           <input
             type="text"
             className="form-control"
+            {...register("name", { required: true })}
             id="title"
-            name="title"
             placeholder="Movie name"
             defaultValue={movieEdit.name}
           />
+          {errors.name && <span>This field is required</span>}
         </div>
         <div className="col-4">
           <label htmlFor="releaseDate" className="form-label">
@@ -37,8 +46,8 @@ function MovieForm({ movie, handleSubmit }) {
             type="text"
             className="form-control"
             id="releaseDate"
-            name="releaseDate"
-            placeholder="Select Date"
+            {...register("releaseDate")}
+            placeholder="MM/DD/YYYY"
             defaultValue={movieEdit.releaseYear}
           />
         </div>
@@ -52,7 +61,7 @@ function MovieForm({ movie, handleSubmit }) {
             type="text"
             className="form-control"
             id="url"
-            name="url"
+            {...register("urlImage")}
             placeholder="https://"
             defaultValue={movieEdit.urlImage}
           />
@@ -65,7 +74,7 @@ function MovieForm({ movie, handleSubmit }) {
             type="text"
             className="form-control"
             id="rating"
-            name="rating"
+            {...register("rating")}
             placeholder="7.8"
             defaultValue={movieEdit.rating}
           />
@@ -85,14 +94,14 @@ function MovieForm({ movie, handleSubmit }) {
           />
         </div>
         <div className="col-4">
-          <label htmlFor="runtime" className="form-label">
+          <label htmlFor="durationResume" className="form-label">
             RUNTIME
           </label>
           <input
             type="text"
             className="form-control"
-            id="runtime"
-            name="runtime"
+            id="durationResume"
+            {...register("durationResume")}
             placeholder="minutes"
             defaultValue={movieEdit.durationResume}
           />
@@ -106,7 +115,7 @@ function MovieForm({ movie, handleSubmit }) {
           <textarea
             className="form-control"
             id="description"
-            name="description"
+            {...register("description")}
             rows="3"
             placeholder="Movie description"
             defaultValue={movieEdit.description}
