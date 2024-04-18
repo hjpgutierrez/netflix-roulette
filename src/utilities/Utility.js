@@ -13,23 +13,27 @@ export function joinGenres(genres) {
   return joinedGenres;
 }
 
-export function movieMapper(movies) {
+export function movieMapperArray(movies) {
   let movieList = [];
   if (movies && movies.length) {
-    movieList = movies.map((movie) => ({
-      id: movie.id,
-      urlImage: movie.poster_path,
-      name: movie.title,
-      releaseYear: extractYearFromRealeaseDate(movie.release_date),
-      realeaseDate: movie.release_date,
-      rating: movie.vote_average,
-      durationResume: movie.runtime,
-      description: movie.overview,
-      genres: movie.genres.map((genre, index) => ({ name: genre, id: index })),
-    }));
+    movieList = movies.map((movie) => movieMapper(movie));
   }
 
   return movieList;
+}
+
+export function movieMapper(movie) {
+  return {
+    id: movie.id,
+    urlImage: movie.poster_path,
+    name: movie.title,
+    releaseYear: extractYearFromRealeaseDate(movie.release_date),
+    realeaseDate: movie.release_date,
+    rating: movie.vote_average,
+    durationResume: movie.runtime,
+    description: movie.overview,
+    genres: movie.genres.map((genre, index) => ({ name: genre, id: index })),
+  };
 }
 
 // "2018-02-07"

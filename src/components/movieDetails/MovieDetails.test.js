@@ -22,13 +22,13 @@ const exampleMovie = {
 };
 
 describe("MovieDetails", () => {
-  test("renders provided initial value", () => {
+  test.only("renders provided initial value", () => {
     render(<MovieDetails movie={exampleMovie} />);
-
-    const image = screen.getByRole("img");
+    const images = screen.getAllByRole("img");
     const name = screen.getByText("Spectral");
-    expect(image.src).toBe(exampleMovie.urlImage);
-    expect(getComputedStyle(image).width).toBe("100%");
+    expect(images[0].src).toBe(exampleMovie.urlImage);
+    expect(images[1].src).toContain("searchIcon.png");
+    expect(getComputedStyle(images[0]).width).toBe("100%");
     expect(name).toBeInTheDocument();
   });
 });
