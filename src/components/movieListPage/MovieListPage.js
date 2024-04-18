@@ -1,5 +1,10 @@
 import { useState, useEffect } from "react";
-import { useParams, useSearchParams, useNavigate } from "react-router-dom";
+import {
+  useParams,
+  useSearchParams,
+  useNavigate,
+  useLocation,
+} from "react-router-dom";
 import axios from "axios";
 import { movieMapperArray } from "../../utilities/Utility.js";
 import SearchForm from "../searchform/SearchForm";
@@ -8,6 +13,7 @@ import MovieTile from "../movieTile/MovieTile.js";
 
 import GenreFilter from "../genreFilter/GenreFilter.js";
 import MovieShellDetails from "../movieShellDetails/movieShellDetails.js";
+import AddMovieForm from "../addMovieForm/AddMovieForm.js";
 
 // Static values
 const sortControlOptions = ["Release Date", "Title"];
@@ -24,6 +30,9 @@ const baseURL = "http://localhost:4000/movies";
 const MovieListPage = () => {
   // States
   let [searchParams, setSearchParams] = useSearchParams();
+  const location = useLocation();
+  const { pathname } = location;
+
   const [filterText, setFilterText] = useState(
     searchParams.get("query") != null ? searchParams.get("query") : ""
   );
@@ -87,6 +96,13 @@ const MovieListPage = () => {
   const [totalAmount, setTotalAmount] = useState(0);
   const navigate = useNavigate();
   let { movieId } = useParams();
+  const [isModalOpen, setIsModalOpen] = useState(
+    pathname === "/add" ? true : false
+  );
+
+  const onCloseModal = () => {
+    setIsModalOpen(false);
+  };
 
   useEffect(() => {
     axios.get(getUrlRequest()).then((response) => {
@@ -123,31 +139,39 @@ const MovieListPage = () => {
   if (movieId) {
     jumboTron = <MovieShellDetails movieId={movieId} />;
   } else {
-    jumboTron = (
-      <div className="bg-opacity mt-4 p-5 text-white">
-        <div className="content text-white">
-          <div className="row mb-5">
-            <div className="col-6">
-              <span className="textlogo">netflix</span>
-              <span className="textlogo2">roulette</span>
-            </div>
-            <div className="col-6 addmoviebuttoncolumn">
-              <div className="addmoviebutton">+ ADD MOVIE</div>
+    jumboTron = // <SeachForm />
+      (
+        <>
+          <div className="bg-opacity mt-4 p-5 text-white">
+            <div className="content text-white">
+              <div className="row mb-5">
+                <div className="col-6">
+                  <span className="textlogo">netflix</span>
+                  <span className="textlogo2">roulette</span>
+                </div>
+                <div className="col-6 addmoviebuttoncolumn">
+                  <div className="addmoviebutton">+ ADD MOVIE</div>
+                </div>
+              </div>
+              <div className="row mb-3 ">
+                <div className="col-md-8 offset-md-1">
+                  <h1 className="ml-3 mb-3">FIND YOUR MOVIE</h1>
+                </div>
+              </div>
+              <SearchForm
+                filterText={filterText}
+                onSearch={onSearchForm}
+                onFilterTextChange={setFilterText}
+              />
             </div>
           </div>
-          <div className="row mb-3 ">
-            <div className="col-md-8 offset-md-1">
-              <h1 className="ml-3 mb-3">FIND YOUR MOVIE</h1>
-            </div>
-          </div>
-          <SearchForm
-            filterText={filterText}
-            onSearch={onSearchForm}
-            onFilterTextChange={setFilterText}
+          <AddMovieForm
+            isOpen={isModalOpen}
+            title={"Add Movie"}
+            closePortal={onCloseModal}
           />
-        </div>
-      </div>
-    );
+        </>
+      );
   }
 
   const listItems = movieList.map((movieItem) => (
