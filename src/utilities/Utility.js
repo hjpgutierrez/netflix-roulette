@@ -40,3 +40,22 @@ export function movieMapper(movie) {
 function extractYearFromRealeaseDate(realeaseDate) {
   return realeaseDate.split("-")[0];
 }
+
+export function ToDto(movieForm, selectedGenres) {
+  return {
+    title: movieForm.name,
+    vote_average: movieForm.rating,
+    release_date: movieForm.releaseDate,
+    poster_path: movieForm.urlImage,
+    overview: movieForm.description,
+    runtime: movieForm.durationResume,
+    genres: ConvertObjectToArray(selectedGenres),
+  };
+}
+
+function ConvertObjectToArray(selectedGenres) {
+  let arr = Array.from(selectedGenres.map((item) => item.name));
+  console.log(arr);
+
+  return arr;
+}

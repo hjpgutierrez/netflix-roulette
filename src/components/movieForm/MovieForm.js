@@ -8,7 +8,7 @@ const displayList = [
   { name: "Comedy", id: 4 },
 ];
 
-function MovieForm({ movie, onSubmit }) {
+function MovieForm({ movie, onSubmit, setSelectedGenres }) {
   let movieEdit = {};
   if (movie) {
     movieEdit = movie;
@@ -17,7 +17,6 @@ function MovieForm({ movie, onSubmit }) {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm();
 
@@ -36,7 +35,9 @@ function MovieForm({ movie, onSubmit }) {
             placeholder="Movie name"
             defaultValue={movieEdit.name}
           />
-          {errors.name && <span>This field is required</span>}
+          {errors.name && (
+            <span className="invalid-input">This field is required</span>
+          )}
         </div>
         <div className="col-4">
           <label htmlFor="releaseDate" className="form-label">
@@ -86,9 +87,11 @@ function MovieForm({ movie, onSubmit }) {
             GENRE
           </label>
           <GenreSelect
+            {...register("genre")}
             displayList={displayList}
             onSelect={(selectedList, selectedItem) => {
               console.log(selectedList);
+              setSelectedGenres(selectedList);
             }}
             selectedGenre={movieEdit.genres}
           />
