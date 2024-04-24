@@ -8,6 +8,9 @@ const displayList = [
   { name: "Comedy", id: 4 },
 ];
 
+var ISO_8601 =
+  /^\d{4}(-\d\d(-\d\d(T\d\d:\d\d(:\d\d)?(\.\d+)?(([+-]\d\d:\d\d)|Z)?)?)?)?$/i;
+
 function MovieForm({ movie, onSubmit, setSelectedGenres }) {
   let movieEdit = {};
   if (movie) {
@@ -30,6 +33,7 @@ function MovieForm({ movie, onSubmit, setSelectedGenres }) {
           <input
             type="text"
             className="form-control"
+            maxLength={30}
             {...register("name", { required: true })}
             id="title"
             placeholder="Movie name"
@@ -46,11 +50,16 @@ function MovieForm({ movie, onSubmit, setSelectedGenres }) {
           <input
             type="text"
             className="form-control"
+            maxLength={10}
+            minLength={10}
             id="releaseDate"
-            {...register("releaseDate")}
-            placeholder="MM/DD/YYYY"
+            {...register("releaseDate", { required: true, pattern: ISO_8601 })}
+            placeholder="YYYY-MM-DD"
             defaultValue={movieEdit.releaseYear}
           />
+          {errors.releaseDate && (
+            <span className="invalid-input">This field is required</span>
+          )}
         </div>
       </div>
       <div className="row">
@@ -59,26 +68,40 @@ function MovieForm({ movie, onSubmit, setSelectedGenres }) {
             MOVIE URL
           </label>
           <input
-            type="text"
+            type="url"
             className="form-control"
             id="url"
-            {...register("urlImage")}
+            {...register("urlImage", { required: true })}
             placeholder="https://"
             defaultValue={movieEdit.urlImage}
           />
+          {errors.urlImage && (
+            <span className="invalid-input">This field is required</span>
+          )}
         </div>
         <div className="col-4">
           <label htmlFor="rating" className="form-label">
             RATING
           </label>
           <input
-            type="text"
+            type="number"
+            min={1}
+            max={10}
+            maxLength={2}
             className="form-control"
             id="rating"
-            {...register("rating")}
+            {...register("rating", {
+              required: true,
+              min: 1,
+              max: 10,
+              maxLength: 2,
+            })}
             placeholder="7.8"
             defaultValue={movieEdit.rating}
           />
+          {errors.rating && (
+            <span className="invalid-input">This field is required</span>
+          )}
         </div>
       </div>
       <div className="row">
@@ -101,13 +124,24 @@ function MovieForm({ movie, onSubmit, setSelectedGenres }) {
             RUNTIME
           </label>
           <input
-            type="text"
+            type="number"
+            max={999}
+            min={1}
+            maxLength={3}
             className="form-control"
             id="durationResume"
-            {...register("durationResume")}
+            {...register("durationResume", {
+              required: true,
+              maxLength: 3,
+              min: 1,
+              max: 999,
+            })}
             placeholder="minutes"
             defaultValue={movieEdit.durationResume}
           />
+          {errors.durationResume && (
+            <span className="invalid-input">This field is required</span>
+          )}
         </div>
       </div>
       <div className="row">
@@ -117,16 +151,26 @@ function MovieForm({ movie, onSubmit, setSelectedGenres }) {
           </label>
           <textarea
             className="form-control"
+            maxLength={1000}
+            max={1000}
+            minLength={20}
             id="description"
-            {...register("description")}
+            {...register("description", {
+              required: true,
+              maxLength: 1000,
+              minLength: 20,
+            })}
             rows="3"
             placeholder="Movie description"
             defaultValue={movieEdit.description}
           ></textarea>
+          {errors.description && (
+            <span className="invalid-input">This field is required</span>
+          )}
         </div>
       </div>
       <div className="modal-footer">
-        <button type="button" className="btn btn-secondary">
+        <button type="reset" className="btn btn-secondary">
           RESET
         </button>
         <input

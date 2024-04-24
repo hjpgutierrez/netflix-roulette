@@ -3,31 +3,27 @@ import ReactDOM from "react-dom/client";
 import "bootstrap/dist/css/bootstrap.css";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { BrowserRouter as Router, Link, Routes, Route } from "react-router-dom";
 
 import MovieListPage from "./components/movieListPage/MovieListPage.js";
-
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <MovieListPage />,
-    children: [
-      {
-        path: "/:movieId",
-        element: <MovieListPage />,
-      },
-      {
-        path: "/add",
-        element: <MovieListPage />,
-      },
-    ],
-  },
-]);
+import AddMovieForm from "./components/addMovieForm/AddMovieForm.js";
+import MovieShellDetails from "./components/movieShellDetails/movieShellDetails.js";
+import SearchForm from "./components/searchform/SearchForm.js";
+import ErrorPage from "./components/errorPage/ErrorPage.js";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <Router>
+      <Routes>
+        <Route path="/" element={<MovieListPage />}>
+          <Route path="search" element={<SearchForm />} />
+          <Route path=":movieId" element={<MovieShellDetails />} />
+          <Route path="add" element={<AddMovieForm />} />
+        </Route>
+        <Route path="*" element={ErrorPage}></Route>
+      </Routes>
+    </Router>
   </React.StrictMode>
 );
 

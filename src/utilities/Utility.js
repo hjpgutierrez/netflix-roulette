@@ -44,11 +44,11 @@ function extractYearFromRealeaseDate(realeaseDate) {
 export function ToDto(movieForm, selectedGenres) {
   return {
     title: movieForm.name,
-    vote_average: movieForm.rating,
+    vote_average: parseFloat(movieForm.rating),
     release_date: movieForm.releaseDate,
     poster_path: movieForm.urlImage,
     overview: movieForm.description,
-    runtime: movieForm.durationResume,
+    runtime: parseInt(movieForm.durationResume, 10),
     genres: ConvertObjectToArray(selectedGenres),
   };
 }

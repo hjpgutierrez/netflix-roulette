@@ -2,14 +2,15 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { movieMapper } from "../../utilities/Utility.js";
 import MovieDetails from "../movieDetails/MovieDetails.js";
-import { useSearchParams, useNavigate } from "react-router-dom";
+import { useParams, useSearchParams, useNavigate } from "react-router-dom";
 
-function MovieShellDetails({ movieId }) {
+function MovieShellDetails() {
   //fallback UI
-  const LoadingIndication = () => <h2>Just a monent... Almost there</h2>;
+  const LoadingIndication = () => <h2>Just a moment... Almost there</h2>;
 
   let [searchParams] = useSearchParams();
   const navigate = useNavigate();
+  let { movieId } = useParams();
   const [isLoading, setIsLoading] = useState(true);
   const [movieItem, setMovieItem] = useState(undefined);
   const getMovieUrl = `http://localhost:4000/movies/${movieId}`;
@@ -25,8 +26,7 @@ function MovieShellDetails({ movieId }) {
   };
 
   const onCloseMovieDetails = () => {
-    setMovieItem(null);
-    navigate("/" + getCurrentQueryParams());
+    navigate("/search" + getCurrentQueryParams());
   };
 
   useEffect(() => {
@@ -37,7 +37,7 @@ function MovieShellDetails({ movieId }) {
         setMovieItem(null);
       };
     });
-  }, []);
+  }, [movieId]);
 
   if (!isLoading) {
     return <MovieDetails movie={movieItem} onClose={onCloseMovieDetails} />;
