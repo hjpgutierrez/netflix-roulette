@@ -2,10 +2,20 @@ import GenreSelect from "../genreSelect/GenreSelect";
 import { useForm } from "react-hook-form";
 
 const displayList = [
+  { name: "Action", id: 5 },
+  { name: "Adventure", id: 6 },
+  { name: "Comedy", id: 4 },
   { name: "Crime", id: 1 },
   { name: "Documentary", id: 2 },
+  { name: "Drama", id: 9 },
+  { name: "Fantasy", id: 7 },
+  { name: "Family", id: 11 },
   { name: "Horror", id: 3 },
-  { name: "Comedy", id: 4 },
+  { name: "Mystery", id: 13 },
+  { name: "Music", id: 14 },
+  { name: "Romance", id: 10 },
+  { name: "Science Fiction", id: 8 },
+  { name: "Thriller", id: 12 },
 ];
 
 var ISO_8601 =
@@ -15,6 +25,7 @@ function MovieForm({ movie, onSubmit, setSelectedGenres }) {
   let movieEdit = {};
   if (movie) {
     movieEdit = movie;
+    setSelectedGenres(movieEdit.genres);
   }
 
   const {
@@ -55,7 +66,7 @@ function MovieForm({ movie, onSubmit, setSelectedGenres }) {
             id="releaseDate"
             {...register("releaseDate", { required: true, pattern: ISO_8601 })}
             placeholder="YYYY-MM-DD"
-            defaultValue={movieEdit.releaseYear}
+            defaultValue={movieEdit.releaseDate}
           />
           {errors.releaseDate && (
             <span className="invalid-input">This field is required</span>
@@ -87,14 +98,12 @@ function MovieForm({ movie, onSubmit, setSelectedGenres }) {
             type="number"
             min={1}
             max={10}
+            step="any"
             maxLength={2}
             className="form-control"
             id="rating"
             {...register("rating", {
               required: true,
-              min: 1,
-              max: 10,
-              maxLength: 2,
             })}
             placeholder="7.8"
             defaultValue={movieEdit.rating}
@@ -113,7 +122,6 @@ function MovieForm({ movie, onSubmit, setSelectedGenres }) {
             {...register("genre")}
             displayList={displayList}
             onSelect={(selectedList, selectedItem) => {
-              console.log(selectedList);
               setSelectedGenres(selectedList);
             }}
             selectedGenre={movieEdit.genres}

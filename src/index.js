@@ -10,6 +10,7 @@ import AddMovieForm from "./components/addMovieForm/AddMovieForm.js";
 import MovieShellDetails from "./components/movieShellDetails/movieShellDetails.js";
 import SearchForm from "./components/searchform/SearchForm.js";
 import ErrorPage from "./components/errorPage/ErrorPage.js";
+import EditMovieForm from "./components/editMovieForm/EditMovieForm.js";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -19,6 +20,7 @@ root.render(
         <Route path="/" element={<MovieListPage />}>
           <Route path="search" element={<SearchForm />} />
           <Route path=":movieId" element={<MovieShellDetails />} />
+          <Route path=":movieId/edit" element={<EditMovieForm />} />
           <Route path="add" element={<AddMovieForm />} />
         </Route>
         <Route path="*" element={ErrorPage}></Route>

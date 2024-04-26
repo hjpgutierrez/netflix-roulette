@@ -43,6 +43,7 @@ code {
 
 .addmoviebuttoncolumn {
   text-align: -webkit-right;
+  cursor: pointer;
 }
 
 .addmoviebutton {
