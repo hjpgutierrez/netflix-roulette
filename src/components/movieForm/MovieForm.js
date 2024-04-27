@@ -73,7 +73,7 @@ function MovieForm({ movie, onSubmit, setSelectedGenres }) {
           )}
         </div>
       </div>
-      <div className="row">
+      <div className="row  mt-4">
         <div className="col-8">
           <label htmlFor="url" className="form-label">
             MOVIE URL
@@ -113,7 +113,7 @@ function MovieForm({ movie, onSubmit, setSelectedGenres }) {
           )}
         </div>
       </div>
-      <div className="row">
+      <div className="row  mt-4">
         <div className="col-8">
           <label htmlFor="genre" className="form-label">
             GENRE
@@ -152,7 +152,7 @@ function MovieForm({ movie, onSubmit, setSelectedGenres }) {
           )}
         </div>
       </div>
-      <div className="row">
+      <div className="row mt-4">
         <div className="col-12">
           <label htmlFor="description" className="form-label">
             OVERVIEW

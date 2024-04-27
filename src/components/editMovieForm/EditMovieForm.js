@@ -59,7 +59,6 @@ const EditMovieForm = () => {
   }, [movieId]);
 
   if (!isLoading) {
-    console.log(movieItem);
     return (
       <Dialog isOpen={true} title={"Edit Movie"} closePortal={onCloseModal}>
         <MovieForm
