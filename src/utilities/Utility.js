@@ -27,8 +27,8 @@ export function movieMapper(movie) {
     id: movie.id,
     urlImage: movie.poster_path,
     name: movie.title,
+    releaseDate: movie.release_date,
     releaseYear: extractYearFromRealeaseDate(movie.release_date),
-    realeaseDate: movie.release_date,
     rating: movie.vote_average,
     durationResume: movie.runtime,
     description: movie.overview,
@@ -39,4 +39,29 @@ export function movieMapper(movie) {
 // "2018-02-07"
 function extractYearFromRealeaseDate(realeaseDate) {
   return realeaseDate.split("-")[0];
+}
+
+export function ToDto(movieForm, selectedGenres, movieId = null) {
+  let body = {
+    title: movieForm.name,
+    vote_average: parseFloat(movieForm.rating),
+    release_date: movieForm.releaseDate,
+    poster_path: movieForm.urlImage,
+    overview: movieForm.description,
+    runtime: parseInt(movieForm.durationResume, 10),
+    genres: ConvertObjectToArray(selectedGenres),
+  };
+
+  if (movieId != null) {
+    body.id = parseInt(movieId, 10);
+  }
+
+  return body;
+}
+
+function ConvertObjectToArray(selectedGenres) {
+  let arr = Array.from(selectedGenres.map((item) => item.name));
+  console.log(arr);
+
+  return arr;
 }
